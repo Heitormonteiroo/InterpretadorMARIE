@@ -1,12 +1,12 @@
-def lerarquivo(nomearquivo,M):
+def lerarquivo(nomearquivo, M):
     with open(nomearquivo, 'r') as arquivo:
-        i=0
+        i = 0
         for linha in arquivo:
-            linhalimpa= linha.strip()
-            linhalimpa=linhalimpa.replace(' ','')
+            linhalimpa = linha.strip()
+            linhalimpa = linhalimpa.replace(' ', '')
             if linhalimpa:
-                M[i]=linhalimpa
-            i+=1
+                M[i] = linhalimpa
+            i += 1
 def binparaint (binario):
         return int(binario, 2)
 def binprastr (binario):
@@ -62,6 +62,8 @@ def obteroperacao (binario):
         return "Storel"
     else:
         return "Error"
+
+
 def decodificador(M,saida):
     AC=0
     PC=0
@@ -75,18 +77,21 @@ def decodificador(M,saida):
         if restobin !="":
             valor=binparaint(restobin)
         incrementar_pc = True
+        print(M)
+        print(restobin)
+        print(valor)
         if operacao=="Add":
-            AC += int(M[int(valor)])
+            AC += binparaint(int(M[int(valor)]))
             saida.append(f"AC={AC}")
         elif operacao=="Sub":
-            AC -= int(M[int(valor)])
+            AC -= binparaint(int(M[int(valor)]))
             saida.append(f"AC={AC}")
         elif operacao=="Addl":
-            aux = int(M[valor])
-            AC += int(M[aux])
+            aux = binparaint(int(M[valor]))
+            AC += binparaint(M[aux])
             saida.append(f"AC={AC}")
         elif operacao=="Load":
-            AC = int(M[valor])
+            AC = binparaint(M[valor])
             saida.append(f"AC={AC}")
         elif operacao=="Halt":
             saida.append(f"Halt")
@@ -95,7 +100,7 @@ def decodificador(M,saida):
             M[valor] = str(AC)
             saida.append(f"Mem({valor})={AC}")
         elif operacao=="Storel":
-            aux = int(M[valor])
+            aux = binparaint(M[valor])
             M[aux] = str(AC)
             saida.append(f"Mem({aux})={AC}")
         elif operacao=="Input":
@@ -108,7 +113,7 @@ def decodificador(M,saida):
             incrementar_pc = False
             saida.append(f"PC={PC}")
         elif operacao=="Jumpl":
-            PC = int(M[valor])
+            PC = binparaint([valor])
             incrementar_pc = False
             saida.append(f"PC={PC}")
         elif operacao=="Jns":
