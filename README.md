@@ -64,3 +64,22 @@ AC=10 AC=5 Mem(2)=10 AC=15 Mem(3)=5 ... Halt
 
 - Python 3.x
 - O arquivo de entrada deve estar no formato correto (instruções binárias de 16 bits).
+
+### 2. Criar o arquivo `Entrada.txt`
+
+Este arquivo deve conter:
+
+- Instruções MARIE em binário (uma por linha).
+- A instrução `0111` (Halt) indicando o fim do código.
+- Após o `0111`, coloque os dados (em binário) que serão utilizados pela memória.
+
+#### Exemplo de conteúdo:
+
+0010000000000100 0011000000000101 0100000000000110 0111 0000000000000011 0000000000000010 0000000000000001
+
+### 3. Executar o programa
+
+Abra o terminal e rode o interpretador com o comando:
+
+```bash
+python interpretador.py
