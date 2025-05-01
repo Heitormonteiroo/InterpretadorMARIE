@@ -83,3 +83,10 @@ Abra o terminal e rode o interpretador com o comando:
 
 ```bash
 python interpretador.py
+
+Após a execução, o arquivo Saida.txt será criado com a saída do programa. Exemplo:
+
+AC=3
+AC=5
+AC=2
+Halt
