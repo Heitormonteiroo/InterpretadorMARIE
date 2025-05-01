@@ -44,3 +44,23 @@ O arquivo de entrada deve ser um arquivo de texto com cada linha representando u
 **Exemplo de entrada**:
 
 0001 000000000010 0011 000000000011 0010 000000000100 0111 0000000000000010 0000000000000011 0000000000000000
+
+Cada instrução é composta por 16 bits, com os primeiros 4 bits representando a operação, e os 12 bits restantes representando o operando (endereço ou valor imediato).
+
+### Arquivo de Saída
+
+A saída do interpretador é salva em um arquivo chamado `Saida.txt`. Cada linha contém o resultado de uma operação executada. **Exemplo de saída**:
+
+AC=10 AC=5 Mem(2)=10 AC=15 Mem(3)=5 ... Halt
+
+### Como Usar
+
+1. Prepare um arquivo de entrada com instruções e dados no formato binário.
+2. Salve o arquivo como `Entrada.txt` no mesmo diretório do script.
+3. Execute o script Python.
+4. O interpretador irá processar o arquivo de entrada e gerar uma saída no arquivo `Saida.txt`.
+
+### Requisitos
+
+- Python 3.x
+- O arquivo de entrada deve estar no formato correto (instruções binárias de 16 bits).
