@@ -1,4 +1,7 @@
+AC=1
+AC=3
+Mem(3)=3
+AC=6
 AC=4
-AC=7
-Mem(4)=7
+Mem(6)=4
 Halt

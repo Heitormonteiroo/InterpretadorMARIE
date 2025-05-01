@@ -1,7 +1,6 @@
 def lerarquivo(nomearquivo, M):
     with open(nomearquivo, 'r') as arquivo:
         linhas = [linha.strip().replace(' ', '') for linha in arquivo if linha.strip()]
-
     i = 0
     for linha in linhas:
         M[i] = linha
@@ -12,7 +11,7 @@ def lerarquivo(nomearquivo, M):
     dadosi = i
     dadoscomeco=i
     for linha in linhas[i:]:
-        M[dadosi] = linha
+        M[dadosi] = binparadecimal(linha)
         dadosi += 1
     return dadoscomeco
 def binparaint(binario):
@@ -55,38 +54,36 @@ def obteroperacao(binario):
 def binparadecimal(binstr):
     return int(binstr[4:], 2)
 def decodificador(M, saida, dadoscomeco):
-    AC = 0  # Acumulador
-    PC = 0  # Contador de programa
+    AC = 0
+    PC = 0
     tamanhodamemoria = len(M)
+    dadoscomeco = dadoscomeco-1
     while PC < tamanhodamemoria:
-        strbin = M[PC]
-        if len(strbin) < 4:
-            PC += 1
-            continue
-
+        strbin = (str(M[PC]))
         opbin = strbin[:4]
-        restobin = strbin[4:] if len(strbin) > 4 else ""
+        restobin = None
+        restobin = strbin[4:]
         operacao = obteroperacao(opbin)
-        valor = binparaint(restobin) if restobin != "" else 0
+        print(operacao)
+        if restobin != "":
+            valor = binparaint(restobin)
         incrementar_pc = True
-
-        # Processamento das instruções
         if operacao == "Add":
-            AC += binparadecimal(M[PC])
+            AC += int(M[valor+dadoscomeco])
             saida.append(f"AC={AC}")
         elif operacao == "Sub":
-            AC -= binparadecimal(M[PC])
+            AC -= int(M[valor+dadoscomeco])
             saida.append(f"AC={AC}")
         elif operacao == "Addl":
-            aux = binparadecimal(M[PC])
-            AC += binparaint(M[aux])
+            aux = (M[valor+dadoscomeco])
+            AC += M[aux]
             saida.append(f"AC={AC}")
         elif operacao == "Load":
-            n = M[valor]
-            AC = binparadecimal(n) if len(n) > 4 else 0
+            n = M[valor+dadoscomeco]
+            AC = n
             saida.append(f"AC={AC}")
         elif operacao == "Store":
-            M[valor] = format(AC, '016b')
+            M[valor+dadoscomeco] = str(AC)
             saida.append(f"Mem({valor})={AC}")
         elif operacao == "Storel":
             aux = binparadecimal(M[PC])
@@ -96,15 +93,19 @@ def decodificador(M, saida, dadoscomeco):
             AC = int(input("Digite um número: "))
         elif operacao == "Output":
             saida.append(f"Output={AC}")
-        elif operacao == "Jump" or operacao == "Jumpl":
+        elif operacao == "Jump":
             PC = valor
-            incrementar_pc = (operacao != "Jumpl")
             saida.append(f"PC={PC}")
-        elif operacao == "Jns":
-            M[valor] = format(PC, '016b')
-            PC = valor + 1
+        elif operacao == "Jumpl":
+            aux = (M[valor + dadoscomeco])
+            PC += M[aux]
             incrementar_pc = False
             saida.append(f"PC={PC}")
+        elif operacao == "Jns":
+            M[valor+dadoscomeco] = str(valor)
+            incrementar_pc = False
+            PC = valor + 1
+            saida.append(f"M[{valor}]={M[valor]}")
         elif operacao == "LoadImmi":
             AC = valor
             saida.append(f"AC={AC}")
@@ -117,17 +118,19 @@ def decodificador(M, saida, dadoscomeco):
                 PC += 1
             elif valor == 3072 and AC != 0:
                 PC += 1
+            saida.append(f"PC={PC}")
         elif operacao == "Halt":
             saida.append("Halt")
             break
         if incrementar_pc:
             PC += 1
+        print(saida)
 arquivotxt = 'Entrada.txt'
 saida = []
 M = ['0'] * (2**12)
 dadoscomeco=lerarquivo(arquivotxt, M)
+print(M)
 decodificador(M, saida,dadoscomeco)
-
 with open('Saida.txt', 'w') as arquivo_saida:
     for linha in saida:
         arquivo_saida.write(linha + '\n')
